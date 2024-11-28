@@ -1,0 +1,38 @@
+---
+- name: Ensur psycopg2 is installed
+  apt:
+    name: python3-psycopg2
+    state: present
+
+- name: Install PostgreSQL
+  apt:
+    name: postgresql
+    state: present
+
+- name: Ensure PostgreSQL is running
+  service:
+    name: postgresql
+    state: started
+    enabled: true
+
+- name: Create PostgreSQL users
+  postgresql_user:
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    state: present
+    role_attr_flags: "CREATEDB,NOSUPERUSER"
+  loop: "{{ db_users }}"
+  become_user: postgres
+
+- name: Create PostgreSQL databases for vagrant user
+  postgresql_db:
+    name: "{{ item.db }}"
+    owner: "{{ item.owner }}"
+    state: present
+  loop: "{{ dbs }}"
+  become_user: postgres
+
+- name: Restart PostgreSQL service
+  service:
+    name: postgresql
+    state: restarted

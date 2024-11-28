@@ -1,0 +1,15 @@
+postgresql_version: 14
+db_users:
+  - name: "vagrant"
+    password: "vagrant_pass"
+
+dbs:
+  - db: "all"
+    owner: "vagrant"
+  - db: "dev"
+    owner: "vagrant"
+  - db: "stage"
+    owner: "vagrant"
+  - db: "prod"
+    owner: "vagrant"
+

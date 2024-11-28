@@ -1,0 +1,13 @@
+---
+- name: Mettre à jour les dépôts apt
+  command: sudo apt-get update
+
+- name: Installer Docker
+  apt:
+    name: docker.io
+    state: present
+
+- name: Installer Docker Compose
+  apt:
+    name: docker-compose
+    state: present

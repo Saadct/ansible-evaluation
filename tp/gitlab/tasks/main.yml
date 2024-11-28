@@ -1,0 +1,27 @@
+---
+- name: Install GitLab dependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - ca-certificates
+    - curl
+    - openssh-server
+    - tzdata
+
+- name: Add GitLab repository
+  shell: |
+    curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | bash
+
+- name: Install GitLab
+  apt:
+    name: gitlab-ce
+    state: present
+
+- name: Configure GitLab
+  template:
+    src: gitlab.rb.j2
+    dest: /etc/gitlab/gitlab.rb
+
+- name: Reconfigure GitLab
+  shell: gitlab-ctl reconfigure

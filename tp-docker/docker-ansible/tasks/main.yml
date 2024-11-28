@@ -1,0 +1,21 @@
+---
+- name: Créer un répertoire pour notre application docker gitlab
+  file:
+    path: /docker-exercice/gitlab
+    state: directory
+    mode: '0755'  # Permissions pour tous
+
+- name: Copier le fichier Dockerfile gitlab
+  copy:
+    src: Dockerfile
+    dest: /docker-exercice/gitlab/Dockerfile
+
+- name: Copier le fichier docker-compose gitlab
+  copy:
+    src: docker-compose.yml
+    dest: /docker-exercice/gitlab/docker-compose.yml
+
+- name: Construire et lancer le conteneur gitlab
+  shell: docker-compose up --build -d
+  args:
+    chdir: /docker-exercice/gitlab

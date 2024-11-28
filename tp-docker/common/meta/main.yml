@@ -1,0 +1,4 @@
+---
+dependencies:
+  - role: install
+  - role: docker-ansible
